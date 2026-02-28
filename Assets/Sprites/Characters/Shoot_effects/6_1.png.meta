@@ -1,25 +1,13 @@
 fileFormatVersion: 2
-guid: c08aac78eb6679f4eb219fa6890ad7cd
+guid: 1359ca2ec17008a46a09493d645ca76d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2107155895000604700
-    second: Cyborg_attack1_0
+      213: -181485876952098698
+    second: 6_1_0
   - first:
-      213: 5899521237771897975
-    second: Cyborg_attack1_1
-  - first:
-      213: 4788302920996027078
-    second: Cyborg_attack1_2
-  - first:
-      213: 1046479873637546903
-    second: Cyborg_attack1_3
-  - first:
-      213: -5659418199009509913
-    second: Cyborg_attack1_4
-  - first:
-      213: -8145677253605179413
-    second: Cyborg_attack1_5
+      213: 8562773002694949093
+    second: 6_1_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -66,7 +54,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -111,172 +99,137 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cyborg_attack1_0
-      rect:
-        serializedVersion: 2
-        x: 3
-        y: 0
-        width: 19
-        height: 35
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c10a1ef4f1f1e3d10800000000000000
-      internalID: 2107155895000604700
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyborg_attack1_1
-      rect:
-        serializedVersion: 2
-        x: 50
-        y: 0
-        width: 20
-        height: 35
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 77c444a0f4f4fd150800000000000000
-      internalID: 5899521237771897975
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyborg_attack1_2
-      rect:
-        serializedVersion: 2
-        x: 97
-        y: 0
-        width: 21
-        height: 35
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6cafeea1328737240800000000000000
-      internalID: 4788302920996027078
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyborg_attack1_3
-      rect:
-        serializedVersion: 2
-        x: 152
-        y: 0
-        width: 14
-        height: 35
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 79bf2cc86e7d58e00800000000000000
-      internalID: 1046479873637546903
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyborg_attack1_4
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 0
-        width: 22
-        height: 34
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7ed38a40225b571b0800000000000000
-      internalID: -5659418199009509913
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyborg_attack1_5
-      rect:
-        serializedVersion: 2
-        x: 248
-        y: 0
-        width: 14
-        height: 35
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bef32eb02bdb4fe80800000000000000
-      internalID: -8145677253605179413
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyborg_attack1_6
+      name: 6_1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 267
-        height: 48
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        y: 20
+        width: 3
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bbacbec4b61cece46be331e229894b20
-      internalID: -852237800
+      spriteID: 27bb0335a604b1d488ed2afdcb9ae598
+      internalID: -181485876952098698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6_1_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 20
+        width: 4
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f479c755a66735944be242d41b6397fd
+      internalID: 8562773002694949093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6_1_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 20
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 039c6b9a43c85a94a9e3f35189ac92d3
+      internalID: 558734734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6_1_3
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 20
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ec326b3676459f4fad06dd936464562
+      internalID: 482468631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6_1_4
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 19
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36a3ed7d4e34bb540b13353ef634dd9f
+      internalID: 970966564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6_1_5
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 18
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 497dbf53265d3e4408b58f9f833f9463
+      internalID: -2109022610
       vertices: []
       indices: 
       edges: []
@@ -285,7 +238,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 593b061a41494424987da4dc80bd2753
+    spriteID: 78147d57c3597f64bac7cc5ef4b89bd6
     internalID: 0
     vertices: []
     indices: 
@@ -293,15 +246,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":50.0,"y":30.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Cyborg_attack1_0: 2107155895000604700
-      Cyborg_attack1_1: 5899521237771897975
-      Cyborg_attack1_2: 4788302920996027078
-      Cyborg_attack1_3: 1046479873637546903
-      Cyborg_attack1_4: -5659418199009509913
-      Cyborg_attack1_5: -8145677253605179413
-      Cyborg_attack1_6: -852237800
+      6_1_0: -181485876952098698
+      6_1_1: 8562773002694949093
+      6_1_2: 558734734
+      6_1_3: 482468631
+      6_1_4: 970966564
+      6_1_5: -2109022610
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
