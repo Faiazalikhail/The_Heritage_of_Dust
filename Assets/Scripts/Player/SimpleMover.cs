@@ -132,4 +132,14 @@ public class SimpleMover : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
+
+    public void TakeDamage()
+    {
+        Debug.Log("Player Hit!");
+
+        // For now → restart level
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
+        );
+    }
 }

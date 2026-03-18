@@ -17,8 +17,19 @@ public class PlayerProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Check if we hit anything that ISN'T the player
         if (!other.CompareTag("Player"))
         {
+            // This handles hitting walls or barriers
+            Destroy(gameObject);
+        }
+
+        // Use 'other' here because that is the name in the parentheses above
+        BaseEnemy enemy = other.GetComponent<BaseEnemy>();
+
+        if (enemy != null)
+        {
+            enemy.TakeDamage();
             Destroy(gameObject);
         }
     }
