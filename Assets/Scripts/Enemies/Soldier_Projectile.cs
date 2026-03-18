@@ -12,11 +12,7 @@ public class EnemyProjectile : MonoBehaviour
 
     public void SetDirection(float dir)
     {
-        if (rb == null) return;
-
         rb.linearVelocity = new Vector2(dir * speed, 0f);
-
-        // Flip sprite
         transform.localScale = new Vector3(dir, 1, 1);
     }
 
@@ -30,11 +26,7 @@ public class EnemyProjectile : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             SimpleMover player = collision.gameObject.GetComponent<SimpleMover>();
-
-            if (player != null)
-            {
-                player.TakeDamage();
-            }
+            if (player != null) player.TakeDamage();
         }
 
         Destroy(gameObject);

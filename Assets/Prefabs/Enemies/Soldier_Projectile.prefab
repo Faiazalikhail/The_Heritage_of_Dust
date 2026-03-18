@@ -46,7 +46,7 @@ Animator:
   m_GameObject: {fileID: 324545171695118551}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e38863d0338d5f24fb81770af44687af, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9fc6438410512464f91418c52af320c5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e68a4dd2088df047a426ea5c0f8b107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyProjectile
-  speed: 6
+  speed: 10
 --- !u!50 &3425299691923392023
 Rigidbody2D:
   serializedVersion: 5
