@@ -31,6 +31,7 @@ public class SoldierEnemy : BaseEnemy
     {
         base.Start();
         rb = GetComponent<Rigidbody2D>();
+
         anim.SetBool("IsAttacking", false);
     }
 
@@ -41,12 +42,13 @@ public class SoldierEnemy : BaseEnemy
 
         float distance = Vector2.Distance(transform.position, player.position);
 
-        // -------- ATTACK --------
+        // -------- ATTACK CHECK --------
         isAttacking = distance <= attackRange;
 
         if (isAttacking)
         {
             rb.linearVelocity = Vector2.zero;
+
             anim.SetBool("IsAttacking", true);
 
             if (inFireFrame)
@@ -58,6 +60,12 @@ public class SoldierEnemy : BaseEnemy
                     Fire();
                     fireTimer = 0f;
                 }
+
+                anim.speed = 0f; // freeze at fire frame
+            }
+            else
+            {
+                anim.speed = 1f; // keep playing until fire frame
             }
 
             return;
@@ -65,6 +73,7 @@ public class SoldierEnemy : BaseEnemy
         else
         {
             anim.SetBool("IsAttacking", false);
+            anim.speed = 1f;
         }
 
         // -------- TURN BLOCK --------
@@ -74,13 +83,14 @@ public class SoldierEnemy : BaseEnemy
             return;
         }
 
-        // -------- MOVE --------
+        // -------- MOVEMENT --------
         rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
+
         transform.localScale = new Vector3(direction, 1, 1);
 
         anim.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
 
-        // -------- WALL CHECK --------
+        // -------- WALL DETECTION --------
         RaycastHit2D hit = Physics2D.Raycast(frontCheck.position, Vector2.right * direction, checkDistance, wallLayer);
 
         if (hit.collider != null)
@@ -92,9 +102,11 @@ public class SoldierEnemy : BaseEnemy
     void Turn()
     {
         isTurning = true;
+
         direction *= -1;
 
         anim.SetBool("isTurning", true);
+
         Invoke(nameof(StopTurning), 0.3f);
     }
 
@@ -106,24 +118,37 @@ public class SoldierEnemy : BaseEnemy
 
     void Fire()
     {
-        if (projectilePrefab == null || firePoint == null) return;
+        if (projectilePrefab == null || firePoint == null)
+        {
+            Debug.LogError("Missing projectilePrefab or firePoint!");
+            return;
+        }
 
+        // Create bullet FIRST
         GameObject bullet = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
 
         float dir = transform.localScale.x;
 
+        // Then access script
         EnemyProjectile proj = bullet.GetComponent<EnemyProjectile>();
 
         if (proj != null)
         {
             proj.SetDirection(dir);
         }
+        else
+        {
+            Debug.LogError("EnemyProjectile script missing on prefab!");
+        }
     }
 
     protected override void Die()
     {
         anim.SetBool("isDead", true);
+
         rb.linearVelocity = Vector2.zero;
+
         Destroy(gameObject, 1f);
     }
+
 }
