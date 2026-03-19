@@ -27,5 +27,15 @@ public class PlayerMoveState : State
         {
             stateMachine.ChangeState(player.idleState);
         }
+
+        float speed = player.moveSpeed;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            speed *= player.runMultiplier;
+        }
+
+        player.SetVelocity(input * speed);
     }
+
 }
