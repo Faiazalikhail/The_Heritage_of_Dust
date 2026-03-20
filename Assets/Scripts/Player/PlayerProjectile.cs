@@ -27,11 +27,11 @@ public class PlayerProjectile : MonoBehaviour
     {
         Debug.Log("Bullet hit: " + collision.name);
 
-        RoboEnemy enemy = collision.GetComponent<RoboEnemy>();
+        IDamageable damageable = collision.GetComponent<IDamageable>();
 
-        if (enemy != null)
+        if (damageable != null)
         {
-            enemy.TakeDamage(1);
+            damageable.TakeDamage(1);
             Destroy(gameObject);
         }
     }

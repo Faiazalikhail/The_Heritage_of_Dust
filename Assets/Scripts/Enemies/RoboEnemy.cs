@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RoboEnemy : MonoBehaviour
+public class RoboEnemy : MonoBehaviour, IDamageable
 {
     // =============================
     // HEALTH SYSTEM

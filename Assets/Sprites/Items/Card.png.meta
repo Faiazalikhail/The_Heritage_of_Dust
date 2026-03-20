@@ -137,12 +137,12 @@ TextureImporter:
       name: Card_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 5
-        width: 14
-        height: 13
+        x: 5
+        y: 6
+        width: 12
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -159,12 +159,12 @@ TextureImporter:
       name: Card_1
       rect:
         serializedVersion: 2
-        x: 30
-        y: 6
-        width: 10
-        height: 13
+        x: 31
+        y: 7
+        width: 8
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -181,12 +181,12 @@ TextureImporter:
       name: Card_2
       rect:
         serializedVersion: 2
-        x: 56
-        y: 7
-        width: 6
-        height: 13
+        x: 57
+        y: 8
+        width: 4
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -203,12 +203,12 @@ TextureImporter:
       name: Card_3
       rect:
         serializedVersion: 2
-        x: 78
-        y: 7
-        width: 10
-        height: 13
+        x: 79
+        y: 8
+        width: 8
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -225,12 +225,12 @@ TextureImporter:
       name: Card_4
       rect:
         serializedVersion: 2
-        x: 100
-        y: 6
-        width: 14
-        height: 13
+        x: 101
+        y: 7
+        width: 12
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -247,12 +247,12 @@ TextureImporter:
       name: Card_5
       rect:
         serializedVersion: 2
-        x: 126
-        y: 5
-        width: 10
-        height: 13
+        x: 127
+        y: 6
+        width: 8
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -269,12 +269,12 @@ TextureImporter:
       name: Card_6
       rect:
         serializedVersion: 2
-        x: 152
-        y: 4
-        width: 6
-        height: 13
+        x: 153
+        y: 5
+        width: 4
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -291,12 +291,12 @@ TextureImporter:
       name: Card_7
       rect:
         serializedVersion: 2
-        x: 174
-        y: 5
-        width: 10
-        height: 13
+        x: 175
+        y: 6
+        width: 8
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -313,7 +313,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 453cd0bc1b858314da56b7da9cf9fc2a
     internalID: 0
     vertices: []
     indices: 

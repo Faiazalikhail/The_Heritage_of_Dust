@@ -1,7 +1,8 @@
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
+using UnityEditor.Rendering.LookDev;
+using  System.Collections;
 
-public class SuperRoboEnemy : MonoBehaviour
+public class SuperRoboEnemy : MonoBehaviour, IDamageable
 {
     // =============================
     // HEALTH SYSTEM
@@ -62,6 +63,9 @@ public class SuperRoboEnemy : MonoBehaviour
 
     private float fireTimer = 0f;
 
+    [Header("Combat Range")]
+    public float attackRange = 3f;
+
     // =============================
     // SPECIAL ATTACK (GROUND SLAM)
     // =============================
@@ -71,6 +75,8 @@ public class SuperRoboEnemy : MonoBehaviour
     public float slamCooldown = 5f;
 
     private float slamTimer = 0f;
+
+    private bool isSlamming = false;
 
     // =============================
     // UNITY METHODS
@@ -91,22 +97,35 @@ public class SuperRoboEnemy : MonoBehaviour
 
         DetectPlayer();
 
-        if (isPlayerDetected)
+        float distance = Vector2.Distance(transform.position, player.position);
+
+        if (distance <= attackRange)
         {
+            // ATTACK MODE
             StopAndFacePlayer();
 
-            // NEW LOGIC
             slamTimer += Time.deltaTime;
 
             if (slamTimer >= slamCooldown)
             {
                 GroundSlam();
                 slamTimer = 0f;
+
+                fireTimer = 0f;
+                return;
             }
-            else
-            {
-                HandleShooting();
-            }
+
+            HandleShooting();
+        }
+        else if (distance <= detectionRange)
+        {
+            // CHASE PLAYER
+            ChasePlayer();
+        }
+        else
+        {
+            // PATROL
+            Patrol();
         }
 
         UpdateAnimation();
@@ -176,6 +195,8 @@ public class SuperRoboEnemy : MonoBehaviour
     // =============================
     void HandleShooting()
     {
+        if (isSlamming) return;
+
         fireTimer += Time.deltaTime;
 
         if (fireTimer >= fireRate)
@@ -258,31 +279,45 @@ public class SuperRoboEnemy : MonoBehaviour
         }
     }
 
-
+    [System.Obsolete]
     void GroundSlam()
     {
+        isSlamming = true;
+
         rb.linearVelocity = Vector2.zero;
 
-        anim.SetTrigger("Attack2"); // new animation
+        anim.SetTrigger("Attack2");
 
-        // Spawn shockwave
         GameObject wave = Instantiate(shockwavePrefab, slamPoint.position, Quaternion.identity);
 
         float dir = transform.localScale.x;
 
         Shockwave shock = wave.GetComponent<Shockwave>();
-
         if (shock != null)
-        {
             shock.SetDirection(dir);
-        }
 
-        // Camera shake
         CameraShake shake = FindObjectOfType<CameraShake>();
         if (shake != null)
-        {
             shake.Shake(0.2f, 0.2f);
-        }
+
+        Invoke(nameof(EndSlam), 1f); 
+    }
+
+    void EndSlam()
+    {
+        isSlamming = false;
+    }
+
+    void ChasePlayer()
+    {
+        if (player.position.x > transform.position.x)
+            direction = 1;
+        else
+            direction = -1;
+
+        rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
+
+        transform.localScale = new Vector3(direction, 1, 1);
     }
 
 }

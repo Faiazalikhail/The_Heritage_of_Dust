@@ -89,12 +89,13 @@ public class PlayerController : MonoBehaviour
         deadState = new PlayerDeadState(this, stateMachine);
 
         currentHealth = maxHealth;
-        fireTimer = fireRate; // 🔥 instant first shot
+        fireTimer = fireRate; // instant first shot
     }
 
     void Start()
     {
         stateMachine.Initialize(idleState);
+        currentHealth = 2;
     }
 
     void Update()
@@ -314,5 +315,11 @@ public class PlayerController : MonoBehaviour
             Debug.Log("DEBUG: Instant Death");
             TakeDamage(999);
         }
+    }
+
+    public void Heal(int amount)
+    {
+        currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 }
