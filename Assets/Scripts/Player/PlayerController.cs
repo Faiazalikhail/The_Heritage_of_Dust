@@ -1,11 +1,14 @@
 using UnityEngine;
+using System.Collections;
 
+[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
     // =====================================================
     // 🔹 CORE COMPONENTS
     // =====================================================
     private Rigidbody2D rb;
+    private Animator anim;
     private StateMachine stateMachine;
 
     // =====================================================
@@ -13,27 +16,21 @@ public class PlayerController : MonoBehaviour
     // =====================================================
     [Header("Movement")]
     public float moveSpeed = 5f;
-    public float horizontalInput;
-
-    [Header("Run")]
     public float runMultiplier = 1.5f;
-
-    
+    public float horizontalInput;
 
     // =====================================================
     // 🔹 JUMP SYSTEM
     // =====================================================
     [Header("Jump")]
-    public float jumpForce = 10f;
+    public float jumpForce = 15f;
     public int maxJumps = 2;
-
     private int jumpCount = 0;
 
     [Header("Ground Check")]
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
-
     public bool isGrounded;
 
     // =====================================================
@@ -43,11 +40,11 @@ public class PlayerController : MonoBehaviour
     public Transform wallCheckLeft;
     public Transform wallCheckRight;
     public float wallCheckDistance = 0.2f;
-
     public bool isTouchingWall;
 
     [Header("Wall Slide")]
     public float wallSlideSpeed = 2f;
+    public bool isWallSliding;
 
     // =====================================================
     // 🔹 SHOOTING SYSTEM
@@ -57,9 +54,8 @@ public class PlayerController : MonoBehaviour
     public Transform firePoint;
 
     [Header("Fire Rate")]
-    public float fireRate = 0.5f;
-
-    private float fireTimer = 0f;
+    public float fireRate = 1f;
+    private float fireTimer;
 
     // =====================================================
     // 🔹 HEALTH SYSTEM
@@ -74,15 +70,8 @@ public class PlayerController : MonoBehaviour
     public PlayerIdleState idleState;
     public PlayerMoveState moveState;
     public PlayerJumpState jumpState;
-    public PlayerAttackState attackState;
     public PlayerHurtState hurtState;
     public PlayerDeadState deadState;
-
-    // =====================================================
-    // 🔹 Animator
-    // =====================================================
-
-    private Animator anim;
 
     // =====================================================
     // 🔹 UNITY METHODS
@@ -90,20 +79,17 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         stateMachine = new StateMachine();
 
-        // Initialize states
         idleState = new PlayerIdleState(this, stateMachine);
         moveState = new PlayerMoveState(this, stateMachine);
         jumpState = new PlayerJumpState(this, stateMachine);
-        attackState = new PlayerAttackState(this, stateMachine);
         hurtState = new PlayerHurtState(this, stateMachine);
         deadState = new PlayerDeadState(this, stateMachine);
 
-        // Initialize health
         currentHealth = maxHealth;
-
-        anim = GetComponent<Animator>();
+        fireTimer = fireRate; // 🔥 instant first shot
     }
 
     void Start()
@@ -113,14 +99,64 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // -------------------------------------------------
-        // INPUT
-        // -------------------------------------------------
+        CheckSurroundings();
+        HandleInput();
+        ApplyWallSlidePhysics();
+
+        stateMachine.Update();
+
+        UpdateAnimator();
+
+        HandleDebugInput();
+    }
+
+    // =====================================================
+    // 🔹 INPUT
+    // =====================================================
+    private void HandleInput()
+    {
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        // -------------------------------------------------
-        // GROUND CHECK
-        // -------------------------------------------------
+        // JUMP
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if ((isGrounded || isTouchingWall) && jumpCount < maxJumps)
+            {
+                stateMachine.ChangeState(jumpState);
+            }
+        }
+
+        // SHOOT 
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Shoot();
+            fireTimer = fireRate;
+        }
+
+        // HOLD → continuous fire
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            fireTimer -= Time.deltaTime;
+
+            if (fireTimer <= 0f)
+            {
+                Shoot();
+                fireTimer = fireRate;
+            }
+        }
+
+        // DEBUG
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            TakeDamage(1);
+        }
+    }
+
+    // =====================================================
+    // 🔹 ENVIRONMENT CHECK
+    // =====================================================
+    private void CheckSurroundings()
+    {
         bool wasGrounded = isGrounded;
 
         isGrounded = Physics2D.OverlapCircle(
@@ -131,118 +167,73 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded && !wasGrounded)
         {
-            jumpCount = 0; // reset jumps on landing
+            jumpCount = 0;
         }
 
-        // -------------------------------------------------
-        // WALL CHECK
-        // -------------------------------------------------
-        bool leftWall = Physics2D.Raycast(
-            wallCheckLeft.position,
-            Vector2.left,
-            wallCheckDistance,
-            groundLayer
-        );
-
-        bool rightWall = Physics2D.Raycast(
-            wallCheckRight.position,
-            Vector2.right,
-            wallCheckDistance,
-            groundLayer
-        );
+        bool leftWall = Physics2D.Raycast(wallCheckLeft.position, Vector2.left, wallCheckDistance, groundLayer);
+        bool rightWall = Physics2D.Raycast(wallCheckRight.position, Vector2.right, wallCheckDistance, groundLayer);
 
         isTouchingWall = leftWall || rightWall;
-
-        // -------------------------------------------------
-        // STATE MACHINE UPDATE
-        // -------------------------------------------------
-        stateMachine.Update();
-
-        // -------------------------------------------------
-        // JUMP INPUT
-        // -------------------------------------------------
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if ((isGrounded || isTouchingWall) && jumpCount < maxJumps)
-            {
-                stateMachine.ChangeState(jumpState);
-            }
-        }
-
-        // -------------------------------------------------
-        // ATTACK INPUT
-        // -------------------------------------------------
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            fireTimer += Time.deltaTime;
-
-            if (fireTimer >= fireRate)
-            {
-                Shoot();
-                fireTimer = 0f;
-            }
-        }
-        else
-        {
-            fireTimer = fireRate; // instant fire when pressed again
-        }
-
-        // -------------------------------------------------
-        // WALL SLIDE
-        // -------------------------------------------------
-        if (!isGrounded && isTouchingWall && rb.linearVelocity.y < 0)
-        {
-            rb.linearVelocity = new Vector2(
-                rb.linearVelocity.x,
-                -wallSlideSpeed
-            );
-        }
-
-        // -------------------------------------------------
-        // DEBUG (REMOVE LATER)
-        // -------------------------------------------------
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            TakeDamage(1);
-        }
-
-        // upgrade fire rate for testing
-
-        // ANIMATION UPDATE
-        anim.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
-        anim.SetBool("isGrounded", isGrounded);
     }
 
     // =====================================================
-    // 🔹 MOVEMENT HELPERS
+    // 🔹 WALL SLIDE
+    // =====================================================
+    private void ApplyWallSlidePhysics()
+    {
+        isWallSliding = (!isGrounded && isTouchingWall && rb.linearVelocity.y < 0);
+
+        if (isWallSliding)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, -wallSlideSpeed);
+        }
+    }
+
+    // =====================================================
+    // 🔹 ANIMATION
+    // =====================================================
+    private void UpdateAnimator()
+    {
+        anim.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
+        anim.SetFloat("yVelocity", rb.linearVelocity.y);
+
+        anim.SetBool("isGrounded", isGrounded);
+        anim.SetBool("isWallSliding", isWallSliding);
+
+        anim.SetInteger("jumpCount", jumpCount);
+        anim.SetBool("isShooting", Input.GetKey(KeyCode.LeftControl));
+    }
+
+    // =====================================================
+    // 🔹 ACTIONS
     // =====================================================
     public void SetVelocity(float x)
     {
-        rb.linearVelocity = new Vector2(x, rb.linearVelocity.y);
+        float speed = moveSpeed;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            speed *= runMultiplier;
+        }
+
+        rb.linearVelocity = new Vector2(x * speed, rb.linearVelocity.y);
     }
 
     public void Jump()
     {
         if (jumpCount >= maxJumps) return;
 
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        jumpCount++;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
-        anim.SetBool("isGrounded", false);
+        jumpCount++;
     }
 
-    // =====================================================
-    // 🔹 SHOOTING
-    // =====================================================
     public void Shoot()
     {
         if (projectilePrefab == null || firePoint == null) return;
 
-        GameObject bullet = Instantiate(
-            projectilePrefab,
-            firePoint.position,
-            Quaternion.identity
-        );
+        GameObject bullet = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
 
         float dir = transform.localScale.x;
 
@@ -256,15 +247,6 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger("Shoot");
     }
 
-    public void UpgradeFireRate(float amount)
-    {
-        fireRate -= amount;
-        fireRate = Mathf.Clamp(fireRate, 0.1f, 1f);
-    }
-
-    // =====================================================
-    // 🔹 DAMAGE SYSTEM
-    // =====================================================
     public void TakeDamage(int damage)
     {
         if (currentHealth <= 0) return;
@@ -273,13 +255,64 @@ public class PlayerController : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            // DEATH
+            anim.SetBool("isHurt", false);
+            anim.SetBool("isDead", true);
+
             stateMachine.ChangeState(deadState);
+
+            StartCoroutine(HandleDeath());
         }
         else
         {
+            // HURT 
+            anim.SetTrigger("Hurt"); 
             stateMachine.ChangeState(hurtState);
         }
+    }
 
-        anim.SetBool("isHurt", true);
+    private IEnumerator HandleDeath()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        FadeController fade = FindFirstObjectByType<FadeController>();
+
+        if (fade != null)
+        {
+            fade.FadeToBlack(3f);
+        }
+
+        yield return new WaitForSeconds(3f);
+
+        Time.timeScale = 0f; // 
+    }
+
+    public void UpgradeFireRate(float amount)
+    {
+        fireRate = Mathf.Clamp(fireRate - amount, 0.1f, 1f);
+    }
+
+    private void HandleDebugInput()
+    {
+        // Take 1 damage
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.Log("DEBUG: Take Damage");
+            TakeDamage(1);
+        }
+
+        // Heal 1
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            currentHealth = Mathf.Min(currentHealth + 1, maxHealth);
+            Debug.Log("DEBUG: Heal → " + currentHealth);
+        }
+
+        // Instant death
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            Debug.Log("DEBUG: Instant Death");
+            TakeDamage(999);
+        }
     }
 }

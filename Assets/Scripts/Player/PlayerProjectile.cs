@@ -23,8 +23,16 @@ public class PlayerProjectile : MonoBehaviour
         Destroy(gameObject, 3f);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(gameObject);
+        Debug.Log("Bullet hit: " + collision.name);
+
+        RoboEnemy enemy = collision.GetComponent<RoboEnemy>();
+
+        if (enemy != null)
+        {
+            enemy.TakeDamage(1);
+            Destroy(gameObject);
+        }
     }
 }
