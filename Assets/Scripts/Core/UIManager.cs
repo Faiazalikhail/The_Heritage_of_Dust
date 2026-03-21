@@ -15,11 +15,22 @@ public class UIManager : MonoBehaviour
     private int money = 0;
     private int keys = 0;
 
+    public TextMeshProUGUI timerText;
+
+    private float timer = 0f;
+
     void Update()
     {
         healthText.text = "Health: " + player.currentHealth;
         moneyText.text = "Money: " + money;
         chestText.text = "Keys: " + keys;
+
+        timer += Time.deltaTime;
+
+        int minutes = Mathf.FloorToInt(timer / 60);
+        int seconds = Mathf.FloorToInt(timer % 60);
+
+        timerText.text = "Time: " + minutes.ToString("00") + ":" + seconds.ToString("00");
     }
 
     public void AddMoney(int amount)
@@ -45,5 +56,8 @@ public class UIManager : MonoBehaviour
     public void ShowWin()
     {
         winText.SetActive(true);
+        Time.timeScale = 0f;
     }
+
+
 }
