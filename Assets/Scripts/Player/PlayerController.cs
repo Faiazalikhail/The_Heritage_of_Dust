@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
     [Header("Health")]
     public int maxHealth = 3;
     public int currentHealth;
+    bool isInvincible = false;
 
     // =====================================================
     // 🔹 STATES
@@ -144,13 +145,7 @@ public class PlayerController : MonoBehaviour
                 Shoot();
                 fireTimer = fireRate;
             }
-        }
-
-        // DEBUG
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            TakeDamage(1);
-        }
+        }  
     }
 
     // =====================================================
@@ -285,7 +280,14 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        Time.timeScale = 0f; // 
+        UIManager ui = FindFirstObjectByType<UIManager>();
+
+        if (ui != null)
+        {
+            ui.ShowGameOver();
+        }
+
+        Time.timeScale = 0f;
     }
 
     public void UpgradeFireRate(float amount)
@@ -321,5 +323,12 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+    }
+
+    public GameObject gameOverText;
+
+    public void ShowGameOver()
+    {
+        gameOverText.SetActive(true);
     }
 }
