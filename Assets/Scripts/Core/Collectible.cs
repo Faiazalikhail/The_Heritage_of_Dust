@@ -11,7 +11,7 @@ public class Collectible : MonoBehaviour
 
     public CollectibleType type;
 
-    public int value = 1; // money or heal amount
+    public int value = 1; 
 
     void OnTriggerEnter2D(Collider2D collision)
     {
